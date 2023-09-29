@@ -15,6 +15,10 @@ enum QuestionType {
 // Defined in window.h
 struct Window;
 
+#define MAX_COMMANDS 32
+#define MAX_COMMAND_LEN 128
+#define ENVIRONMENTS_DIR "/home/lucas/gtkgreet/etc/greetd/environments/"
+
 struct GtkGreet {
     GtkApplication *app;
     GArray *windows;
@@ -27,6 +31,7 @@ struct GtkGreet {
     gboolean use_layer_shell;
 #endif
     char* command;
+    char commands[MAX_COMMANDS][MAX_COMMAND_LEN];
 
     char* selected_command;
     enum QuestionType question_type;

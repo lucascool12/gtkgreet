@@ -2,6 +2,7 @@
 
 #include <time.h>
 #include <assert.h>
+#include <limits.h>
 
 #include <glib/gi18n.h>
 
@@ -67,11 +68,25 @@ void action_answer_question(GtkWidget *widget, gpointer data) {
     struct Window *ctx = data;
     switch (gtkgreet->question_type) {
         case QuestionTypeInitial: {
-            if (gtkgreet->selected_command) {
+            if (gtkgreet->selected_command != NULL) {
                 free(gtkgreet->selected_command);
                 gtkgreet->selected_command = NULL;
             }
-            gtkgreet->selected_command = strdup(gtk_combo_box_text_get_active_text((GtkComboBoxText*)ctx->command_selector));
+            int id = gtk_combo_box_get_active((GtkComboBox*)ctx->command_selector);
+            if (gtkgreet->command != NULL && id == 0) {
+                gtkgreet->selected_command = strdup(gtkgreet->command);
+            } else if (gtkgreet->command != NULL) {
+                id -= 1;
+                char *cmd = malloc(PATH_MAX);
+                strcpy(cmd, ENVIRONMENTS_DIR);
+                strcat(cmd, gtkgreet->commands[id]);
+                gtkgreet->selected_command = cmd;
+            } else {
+                char *cmd = malloc(PATH_MAX);
+                strcpy(cmd, ENVIRONMENTS_DIR);
+                strcat(cmd, gtkgreet->commands[id]);
+                gtkgreet->selected_command = cmd;
+            }
 
             struct request req = {
                 .request_type = request_type_create_session,
