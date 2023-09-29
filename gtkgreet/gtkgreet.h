@@ -17,7 +17,7 @@ struct Window;
 
 #define MAX_COMMANDS 32
 #define MAX_COMMAND_LEN 128
-#define ENVIRONMENTS_DIR "/home/lucas/gtkgreet/etc/greetd/environments/"
+#define ENVIRONMENTS_DIR "/etc/greetd/environments/"
 
 struct GtkGreet {
     GtkApplication *app;
